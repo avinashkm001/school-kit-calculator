@@ -124,21 +124,19 @@
         const g6 = parseInt(document.getElementById('grade6').value) || 0;
         const g7 = parseInt(document.getElementById('grade7').value) || 0;
         
-        // 2. Logic derived from spreadsheet
-        // Li Ion Batteries = Grade 6 * 2
-        const liIonBatteries = g6 * 2;
+        // A. Li Ion Batteries = Max(Grade 6, Grade 7) * 2
+        // We use Math.max() to select the higher number of the two grades.
+        const liIonBatteries = Math.max(g6, g7) * 2;
         
-        // Chargers = Grade 6 / 10 (Using Math.ceil to ensure we have enough if not exact)
-        // Note: Spreadsheet showed 30 -> 3. If logic is strict division, use /10. 
-        // I will use Math.ceil to be safe for real world ordering, or standard division if exact.
-        // Given 30->3, let's assume standard rounding or exact division.
-        const chargers = Math.ceil(g6 / 10); 
+        // B. PS2 Remotes = Ceiling(Grade 7 / 3)
+        // We use Math.ceil() to round up to the nearest whole number.
+        const remotes = Math.ceil(g7 / 3);
 
-        // PS2 Remotes = (Grade 6 + Grade 7) / 5
-        const totalStudents = g6 + g7;
-        const remotes = Math.ceil(totalStudents / 5);
+        // C. Li Ion Chargers = Li Ion Batteries / 20
+        // We use Math.ceil() here as well because you can't order a fraction of a charger.
+        const chargers = Math.ceil(liIonBatteries / 20);
 
-        // AAA Batteries = Remotes * 3
+        // D. AAA Batteries = PS2 Remotes * 3
         const aaaBatteries = remotes * 3;
 
         // 3. Update UI

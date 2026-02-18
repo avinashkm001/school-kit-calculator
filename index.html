@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>School Kit Order Calculator</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #f4f4f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 400px;
+        }
+        h2 {
+            margin-top: 0;
+            color: #333;
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+        .input-group {
+            margin-bottom: 1rem;
+        }
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #666;
+            font-weight: 500;
+        }
+        input[type="number"] {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            box-sizing: border-box; 
+            font-size: 1rem;
+        }
+        input[type="number"]:focus {
+            border-color: #007bff;
+            outline: none;
+        }
+        .results {
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 2px solid #f0f0f0;
+        }
+        .result-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.5rem 0;
+            font-size: 0.95rem;
+        }
+        .result-value {
+            font-weight: bold;
+            color: #007bff;
+        }
+        button {
+            width: 100%;
+            padding: 0.75rem;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 1rem;
+            cursor: pointer;
+            margin-top: 1rem;
+            font-weight: bold;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Order Calculator</h2>
+    
+    <div class="input-group">
+        <label for="grade6">Number of Grade 6 Students</label>
+        <input type="number" id="grade6" placeholder="0" min="0">
+    </div>
+
+    <div class="input-group">
+        <label for="grade7">Number of Grade 7 Students</label>
+        <input type="number" id="grade7" placeholder="0" min="0">
+    </div>
+
+    <button onclick="calculate()">Calculate Orders</button>
+
+    <div class="results" id="results" style="display:none;">
+        <div class="result-item">
+            <span>Li Ion Batteries:</span>
+            <span class="result-value" id="res-li-ion">0</span>
+        </div>
+        <div class="result-item">
+            <span>PS2 Remotes:</span>
+            <span class="result-value" id="res-remotes">0</span>
+        </div>
+        <div class="result-item">
+            <span>Li Ion Chargers:</span>
+            <span class="result-value" id="res-chargers">0</span>
+        </div>
+        <div class="result-item">
+            <span>AAA Batteries:</span>
+            <span class="result-value" id="res-aaa">0</span>
+        </div>
+    </div>
+</div>
+
+<script>
+    function calculate() {
+        // 1. Get Inputs
+        const g6 = parseInt(document.getElementById('grade6').value) || 0;
+        const g7 = parseInt(document.getElementById('grade7').value) || 0;
+        
+        // 2. Logic derived from spreadsheet
+        // Li Ion Batteries = Grade 6 * 2
+        const liIonBatteries = g6 * 2;
+        
+        // Chargers = Grade 6 / 10 (Using Math.ceil to ensure we have enough if not exact)
+        // Note: Spreadsheet showed 30 -> 3. If logic is strict division, use /10. 
+        // I will use Math.ceil to be safe for real world ordering, or standard division if exact.
+        // Given 30->3, let's assume standard rounding or exact division.
+        const chargers = Math.ceil(g6 / 10); 
+
+        // PS2 Remotes = (Grade 6 + Grade 7) / 5
+        const totalStudents = g6 + g7;
+        const remotes = Math.ceil(totalStudents / 5);
+
+        // AAA Batteries = Remotes * 3
+        const aaaBatteries = remotes * 3;
+
+        // 3. Update UI
+        document.getElementById('res-li-ion').textContent = liIonBatteries;
+        document.getElementById('res-remotes').textContent = remotes;
+        document.getElementById('res-chargers').textContent = chargers;
+        document.getElementById('res-aaa').textContent = aaaBatteries;
+
+        document.getElementById('results').style.display = 'block';
+    }
+</script>
+
+</body>
+</html>

@@ -125,19 +125,16 @@
         const g7 = parseInt(document.getElementById('grade7').value) || 0;
         
         // A. Li Ion Batteries = Max(Grade 6, Grade 7) * 2
-        // We use Math.max() to select the higher number of the two grades.
         const liIonBatteries = Math.max(g6, g7) * 2;
         
         // B. PS2 Remotes = Ceiling(Grade 7 / 3)
-        // We use Math.ceil() to round up to the nearest whole number.
         const remotes = Math.ceil(g7 / 3);
 
         // C. Li Ion Chargers = Li Ion Batteries / 20
-        // We use Math.ceil() here as well because you can't order a fraction of a charger.
         const chargers = Math.ceil(liIonBatteries / 20);
 
-        // D. AAA Batteries = PS2 Remotes * 3
-        const aaaBatteries = remotes * 3;
+        // D. AAA Batteries = PS2 Remotes * 2
+        const aaaBatteries = remotes * 2;
 
         // 3. Update UI
         document.getElementById('res-li-ion').textContent = liIonBatteries;

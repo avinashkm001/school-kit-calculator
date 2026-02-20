@@ -13,6 +13,7 @@
             align-items: center;
             min-height: 100vh;
             margin: 0;
+            padding: 20px;
         }
         .container {
             background: white;
@@ -20,7 +21,7 @@
             border-radius: 12px;
             box-shadow: 0 4px 6px rgba(0,0,0,0.1);
             width: 100%;
-            max-width: 400px;
+            max-width: 450px;
         }
         h2 {
             margin-top: 0;
@@ -84,8 +85,13 @@
 <body>
 
 <div class="container">
-    <h2>Order Calculator</h2>
+    <h2>School Kit Calculator</h2>
     
+    <div class="input-group">
+        <label for="grade5">Number of Grade 5 Students</label>
+        <input type="number" id="grade5" placeholder="0" min="0">
+    </div>
+
     <div class="input-group">
         <label for="grade6">Number of Grade 6 Students</label>
         <input type="number" id="grade6" placeholder="0" min="0">
@@ -94,6 +100,16 @@
     <div class="input-group">
         <label for="grade7">Number of Grade 7 Students</label>
         <input type="number" id="grade7" placeholder="0" min="0">
+    </div>
+
+    <div class="input-group">
+        <label for="grade8">Number of Grade 8 Students</label>
+        <input type="number" id="grade8" placeholder="0" min="0">
+    </div>
+
+    <div class="input-group">
+        <label for="grade9">Number of Grade 9 Students</label>
+        <input type="number" id="grade9" placeholder="0" min="0">
     </div>
 
     <button onclick="calculate()">Calculate Orders</button>
@@ -115,14 +131,25 @@
             <span>AAA Batteries:</span>
             <span class="result-value" id="res-aaa">0</span>
         </div>
+        <div class="result-item">
+            <span>Arduino Uno:</span>
+            <span class="result-value" id="res-arduino">0</span>
+        </div>
+        <div class="result-item">
+            <span>ESP32:</span>
+            <span class="result-value" id="res-esp32">0</span>
+        </div>
     </div>
 </div>
 
 <script>
     function calculate() {
         // 1. Get Inputs
+        const g5 = parseInt(document.getElementById('grade5').value) || 0;
         const g6 = parseInt(document.getElementById('grade6').value) || 0;
         const g7 = parseInt(document.getElementById('grade7').value) || 0;
+        const g8 = parseInt(document.getElementById('grade8').value) || 0;
+        const g9 = parseInt(document.getElementById('grade9').value) || 0;
         
         // A. Li Ion Batteries = Max(Grade 6, Grade 7) * 2
         const liIonBatteries = Math.max(g6, g7) * 2;
@@ -136,11 +163,19 @@
         // D. AAA Batteries = PS2 Remotes * 2
         const aaaBatteries = remotes * 2;
 
+        // E. Arduino Uno = Ceiling((Grade 5 + Grade 6 + Grade 7) / 3)
+        const arduino = Math.ceil((g5 + g6 + g7) / 3);
+
+        // F. ESP32 = Ceiling((Grade 8 + Grade 9) / 3)
+        const esp32 = Math.ceil((g8 + g9) / 3);
+
         // 3. Update UI
         document.getElementById('res-li-ion').textContent = liIonBatteries;
         document.getElementById('res-remotes').textContent = remotes;
         document.getElementById('res-chargers').textContent = chargers;
         document.getElementById('res-aaa').textContent = aaaBatteries;
+        document.getElementById('res-arduino').textContent = arduino;
+        document.getElementById('res-esp32').textContent = esp32;
 
         document.getElementById('results').style.display = 'block';
     }
